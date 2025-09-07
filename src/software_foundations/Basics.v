@@ -939,7 +939,7 @@ Definition ltb (n m : nat) : bool :=
   | _ => n <=? m
   end.
 
-  
+
 Notation "x <? y" := (ltb x y) (at level 70) : nat_scope.
 
 Example test_ltb1:             (ltb 4 2) = false.
@@ -1111,7 +1111,15 @@ Proof.
 Theorem plus_id_exercise : forall n m o : nat,
   n = m -> m = o -> n + m = m + o.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros n m o.
+
+  intros H. (* n = m*)
+  intros Y. (* m = o*)
+
+  rewrite -> H.
+  rewrite <- Y.
+  reflexivity. Qed.
+
 (** [] *)
 
 (** The [Admitted] command tells Coq that we want to skip trying
@@ -1162,7 +1170,10 @@ Proof.
 Theorem mult_n_1 : forall p : nat,
   p * 1 = p.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros p.
+  rewrite <- mult_n_Sm.
+  rewrite <- mult_n_O.
+  reflexivity. Qed.
 
 (** [] *)
 
@@ -1362,7 +1373,16 @@ Qed.
 Theorem andb_true_elim2 : forall b c : bool,
   andb b c = true -> c = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros b c. destruct b eqn:Eb.
+  { simpl. destruct c eqn:Ec.
+    -reflexivity.
+    -intros H. rewrite -> H. reflexivity. (*hint2*)
+  }
+  { simpl. destruct c eqn:Ec.
+    -intros H. reflexivity.
+    -intros H. rewrite -> H. reflexivity.
+  }
+Qed.
 (** [] *)
 
 (** Before closing the chapter, let's mention one final
