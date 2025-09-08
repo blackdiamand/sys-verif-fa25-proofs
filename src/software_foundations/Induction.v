@@ -320,7 +320,10 @@ Qed.
 Theorem even_S : forall n : nat,
   even (S n) = negb (even n).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  induction n.
+  - simpl. reflexivity.  
+  - rewrite IHn. rewrite negb_involutive. reflexivity. 
+Qed. 
 (** [] *)
 
 (* ################################################################# *)
@@ -513,9 +516,26 @@ Proof.
 
     Translate your solution for [add_comm] into an informal proof:
 
-    Theorem: Addition is commutative.
+    Theorem: Addition is commutative. n + m = m + n
 
-    Proof: (* FILL IN HERE *)
+    Proof: By weak induction on n
+
+    Base case: n = 0
+      0 + m = m + 0
+      Adding 0 to a number and adding a number to 0 result in the same number
+      We thus have m = m
+    
+    Our inductive case is S n + m = m + S n
+
+      We know that S n + m = S (n + m)
+      Now we rewrite the equation into
+      S(n + m) = m + S n
+
+      Since we know that n + S m = S (n + m) we may rewrite the above as
+      S(n + m) = S (m + n)
+      Using our inductive hypothesis, we have
+      S(n + m) = S (n + m)
+    Qed.
 *)
 
 (* Do not modify the following line: *)
@@ -530,7 +550,16 @@ Definition manual_grade_for_add_comm_informal : option (nat*string) := None.
 
     Theorem: [(n =? n) = true] for any [n].
 
-    Proof: (* FILL IN HERE *)
+    Proof: By weak induction on n
+
+    Base case: 0 = 0 is trivial
+
+    Inductive step: (S n =? S n) = true
+      Since n is the same type as S n, we simply apply the inductive hypothesis
+      (n =? n) to (S n =? S n)
+
+      Thus we have true = true
+    Qed.
 *)
 
 (* Do not modify the following line: *)
@@ -548,7 +577,19 @@ Definition manual_grade_for_eqb_refl_informal : option (nat*string) := None.
 Theorem add_shuffle3 : forall n m p : nat,
   n + (m + p) = m + (n + p).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros n m p.
+
+  assert (H: n + (m + p) = n + m + p).
+  {  rewrite add_assoc. reflexivity. }
+  rewrite H.
+  rewrite add_assoc.
+
+  assert (P: n + m = m + n).
+  { rewrite add_comm. reflexivity. }
+  rewrite P. 
+  reflexivity.
+Qed. 
+
 
 (** Now prove commutativity of multiplication.  You will probably want
     to look for (or define and prove) a "helper" theorem to be used in
@@ -557,6 +598,10 @@ Proof.
 Theorem mul_comm : forall m n : nat,
   m * n = n * m.
 Proof.
+  induction n. 
+  - rewrite mul_0_r. trivial. 
+  - simpl. 
+  
   (* FILL IN HERE *) Admitted.
 (** [] *)
 

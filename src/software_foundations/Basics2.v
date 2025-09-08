@@ -1,1 +1,0 @@
-Check mult_n_Sm.
