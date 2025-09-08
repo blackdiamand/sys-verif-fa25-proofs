@@ -1837,49 +1837,68 @@ Qed.
 
     Our solution is under 10 lines of code total. *)
 Definition lower_grade (g : grade) : grade
-  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
+  := match g with
+  | (Grade F m) => match m with
+    | Plus => (Grade F Natural)
+    | Natural => (Grade F Minus)
+    | Minus => (Grade F Minus)
+    end
+  | (Grade l m) => match m with 
+    | Plus => (Grade l Natural)
+    | Natural => (Grade l Minus)
+    | Minus => (Grade (lower_letter l) Plus)
+    end
+  end.
 
 Example lower_grade_A_Plus :
   lower_grade (Grade A Plus) = (Grade A Natural).
 Proof.
-(* FILL IN HERE *) Admitted.
+  simpl. reflexivity. 
+Qed.
 
 Example lower_grade_A_Natural :
   lower_grade (Grade A Natural) = (Grade A Minus).
 Proof.
-(* FILL IN HERE *) Admitted.
+  simpl. reflexivity. 
+Qed.
 
 Example lower_grade_A_Minus :
   lower_grade (Grade A Minus) = (Grade B Plus).
 Proof.
-(* FILL IN HERE *) Admitted.
+  simpl. reflexivity. 
+Qed.
 
 Example lower_grade_B_Plus :
   lower_grade (Grade B Plus) = (Grade B Natural).
 Proof.
-(* FILL IN HERE *) Admitted.
+  simpl. reflexivity. 
+Qed.
 
 Example lower_grade_F_Natural :
   lower_grade (Grade F Natural) = (Grade F Minus).
 Proof.
-(* FILL IN HERE *) Admitted.
+  simpl. reflexivity. 
+Qed.
 
 Example lower_grade_twice :
   lower_grade (lower_grade (Grade B Minus)) = (Grade C Natural).
 Proof.
-(* FILL IN HERE *) Admitted.
+  simpl. reflexivity. 
+Qed.
 
 Example lower_grade_thrice :
   lower_grade (lower_grade (lower_grade (Grade B Minus))) = (Grade C Minus).
 Proof.
-(* FILL IN HERE *) Admitted.
+  simpl. reflexivity. 
+Qed.
 
 (** Coq makes no distinction between an [Example] and a [Theorem]. We
     state the following as a [Theorem] only as a hint that we will use
     it in proofs below. *)
 Theorem lower_grade_F_Minus : lower_grade (Grade F Minus) = (Grade F Minus).
 Proof.
-(* FILL IN HERE *) Admitted.
+  simpl. reflexivity. 
+Qed.
 
 (* GRADE_THEOREM 0.25: lower_grade_A_Plus *)
 (* GRADE_THEOREM 0.25: lower_grade_A_Natural *)
@@ -1910,7 +1929,12 @@ Theorem lower_grade_lowers :
     grade_comparison (Grade F Minus) g = Lt ->
     grade_comparison (lower_grade g) g = Lt.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intro g. intro H. destruct g. destruct m. 
+  simpl. 
+  - destruct l. 1-5: trivial.  
+  - destruct l. 1-5: trivial. 
+  - destruct l. 1-4: trivial. rewrite lower_grade_F_Minus. trivial. 
+Qed. 
 
 (** [] *)
 
@@ -1966,7 +1990,11 @@ Theorem no_penalty_for_mostly_on_time :
     (late_days <? 9 = true) ->
     apply_late_policy late_days g = g.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros late_days g H. 
+  rewrite apply_late_policy_unfold. 
+  rewrite H. 
+  reflexivity.
+Qed.
 
 (** [] *)
 
@@ -1980,7 +2008,10 @@ Theorem grade_lowered_once :
     (late_days <? 17 = true) ->
     (apply_late_policy late_days g) = (lower_grade g).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros late_days g H H'. 
+  rewrite apply_late_policy_unfold. 
+  rewrite H. rewrite H'. reflexivity. 
+Qed.  
 
 (** [] *)
 End LateDays.
