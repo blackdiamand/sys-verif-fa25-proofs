@@ -1513,9 +1513,14 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
     that it doesn't cause Coq to reject the whole file!) *)
 
 (* FILL IN HERE
+Fixpoint plus'' (n : nat) (m : nat) : nat :=
+  match m with
+  | O => n
+  | S m' => S (plus'' m' n)
+end.
 
-    [] *)
-
+This decreases on the second argument, which is not allowed
+*)
 (* ################################################################# *)
 (** * More Exercises *)
 
@@ -1532,7 +1537,9 @@ Theorem identity_fn_applied_twice :
   (forall (x : bool), f x = x) ->
   forall (b : bool), f (f b) = b.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros f x b.
+  rewrite x. rewrite x. reflexivity. 
+Qed.
 
 (** [] *)
 
@@ -1543,6 +1550,16 @@ Proof.
     function [f] has the property that [f x = negb x]. *)
 
 (* FILL IN HERE *)
+
+Theorem negation_fn_applied_twice :
+  forall (f : bool -> bool),
+  (forall (x : bool), f x = negb x) ->
+  forall (b : bool), f (f b) = b.
+Proof. 
+  intros f x b.
+  rewrite x. rewrite x. rewrite negb_involutive. reflexivity. 
+Qed.
+(** [] *) 
 
 (* Do not modify the following line: *)
 Definition manual_grade_for_negation_fn_applied_twice : option (nat*string) := None.
@@ -1562,7 +1579,12 @@ Theorem andb_eq_orb :
   (andb b c = orb b c) ->
   b = c.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros b c. 
+  destruct b. destruct c.
+  - trivial. 
+  - simpl. intros H. rewrite H. reflexivity.
+  - simpl. intros H. rewrite H. reflexivity. 
+Qed. 
 
 (** [] *)
 
@@ -1665,7 +1687,13 @@ Compute letter_comparison B F.
 Theorem letter_comparison_Eq :
   forall l, letter_comparison l l = Eq.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intro l. destruct l. 
+  -simpl. reflexivity. 
+  -simpl. reflexivity. 
+  -simpl. reflexivity. 
+  -simpl. reflexivity. 
+  -simpl. reflexivity. 
+Qed. 
 (** [] *)
 
 (** We can follow the same strategy to define the comparison operation
@@ -1697,6 +1725,7 @@ Definition modifier_comparison (m1 m2 : modifier) : comparison :=
     possibilities. *)
 
 Definition grade_comparison (g1 g2 : grade) : comparison
+  
   (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
 
 (** The following "unit tests" of your [grade_comparison] function

@@ -269,8 +269,11 @@ Qed.
 Theorem add_assoc : forall n m p : nat,
   n + (m + p) = (n + m) + p.
 Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
+  intros n m p.
+  induction n.
+  - simpl. reflexivity.
+  - simpl. rewrite IHn. reflexivity.
+Qed.
 
 (** **** Exercise: 2 stars, standard (double_plus)
 
@@ -286,7 +289,10 @@ Fixpoint double (n:nat) :=
 
 Lemma double_plus : forall n, double n = n + n .
 Proof.
-  (* FILL IN HERE *) Admitted.
+  induction n.
+  - simpl. reflexivity.
+  - simpl. rewrite IHn. rewrite <- plus_n_Sm. reflexivity.
+Qed. 
 (** [] *)
 
 (** **** Exercise: 2 stars, standard (eqb_refl)
@@ -296,7 +302,10 @@ Proof.
 Theorem eqb_refl : forall n : nat,
   (n =? n) = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  induction n.
+  - simpl. reflexivity.
+  - simpl. rewrite IHn. reflexivity.
+Qed.
 (** [] *)
 
 (** **** Exercise: 2 stars, standard, optional (even_S)
