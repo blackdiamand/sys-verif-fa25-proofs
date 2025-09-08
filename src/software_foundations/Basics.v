@@ -1725,27 +1725,33 @@ Definition modifier_comparison (m1 m2 : modifier) : comparison :=
     possibilities. *)
 
 Definition grade_comparison (g1 g2 : grade) : comparison
-  
-  (* REPLACE THIS LINE WITH ":= _your_definition_ ." *). Admitted.
+  := match (g1, g2) with
+  | (Grade l1 m1, Grade l2 m2) => match letter_comparison l1 l2 with
+    | Lt => Lt
+    | Gt => Gt
+    | Eq => modifier_comparison m1 m2
+    end
+  end.
 
 (** The following "unit tests" of your [grade_comparison] function
     should pass once you have defined it correctly. *)
 
 Example test_grade_comparison1 :
   (grade_comparison (Grade A Minus) (Grade B Plus)) = Gt.
-(* FILL IN HERE *) Admitted.
+Proof. reflexivity. Qed.
+(* FILL IN HERE *)
 
 Example test_grade_comparison2 :
   (grade_comparison (Grade A Minus) (Grade A Plus)) = Lt.
-(* FILL IN HERE *) Admitted.
+Proof. reflexivity. Qed.
 
 Example test_grade_comparison3 :
   (grade_comparison (Grade F Plus) (Grade F Plus)) = Eq.
-(* FILL IN HERE *) Admitted.
+Proof. reflexivity. Qed.
 
 Example test_grade_comparison4 :
   (grade_comparison (Grade B Minus) (Grade C Plus)) = Gt.
-(* FILL IN HERE *) Admitted.
+Proof. reflexivity. Qed.
 
 (** [] *)
 
@@ -1803,7 +1809,13 @@ Theorem lower_letter_lowers:
     letter_comparison F l = Lt ->
     letter_comparison (lower_letter l) l = Lt.
 Proof.
-(* FILL IN HERE *) Admitted.
+  intro l. intro H. destruct l. 
+  - simpl. reflexivity. 
+  - simpl. reflexivity. 
+  - simpl. reflexivity. 
+  - simpl. reflexivity. 
+  - rewrite lower_letter_F_is_F. rewrite H. reflexivity. 
+Qed. 
 
 (** [] *)
 
