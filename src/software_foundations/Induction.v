@@ -600,9 +600,11 @@ Theorem mul_comm : forall m n : nat,
 Proof.
   induction n. 
   - rewrite mul_0_r. trivial. 
-  - simpl. 
+  - simpl.
+  assert (P: m * S n = m + m * n).
+Admitted.
+  (*{simpl. Admitted.}*)
   
-  (* FILL IN HERE *) Admitted.
 (** [] *)
 
 (** **** Exercise: 3 stars, standard, optional (more_exercises)

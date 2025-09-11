@@ -93,11 +93,17 @@ Compute (next_weekday friday).
 all. We'll get to more interesting theorems shortly, but for now let's prove a
 "unit test" theorem.
 
-NOTE: Theorem/Lemma/Example are all synonyms. In this class we'll try to stick
+NOTE: Theorem/Lemma/Example/Corollary are all synonyms. In this class we'll try to stick
 to Lemma.
 |*)
-Lemma next_weekday_test : next_weekday (next_weekday friday) = tuesday.
+(* Vernacular: Lemma, Proof, Qed
+   Tactics simpl. reflexivity
+   Syntax   : type     . tactic     := def     | match      () function application
+   *)
+Corollary next_weekday_test : next_weekday (next_weekday friday) = tuesday.
 Proof.
+  assert (H: 1 + 1 = 2 ).
+  {simpl. reflexivity. }
   simpl.
   reflexivity.
 Qed.
