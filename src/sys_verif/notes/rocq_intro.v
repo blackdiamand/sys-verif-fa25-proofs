@@ -163,11 +163,12 @@ Qed.
 (*| ### In-class exercise: decoding type errors
 
 Think about these two errors on your own and try to explain how they were
-produced. What is needed to fix each?
+produced. What is needed to fix each? Another argument for the nested orb
 
 |*)
 Fail Definition complex_expr1 (b1 b2 b3: bool) :=
   orb (andb' b2 false) (andb (orb (b1)) (b3)) b2.
+
 (*
 Error:
 In environment
@@ -180,6 +181,7 @@ The term "orb b1" has type "bool -> bool" while it is expected to have type "boo
 Fail Definition complex_expr2 b1 b2 b3 :=
   andb (andb b1 (b2 (orb b3 b1))) b2.
 (*
+b2 is not a function, it is a boolean 
 Error:
 In environment
 b1 : bool
@@ -291,8 +293,15 @@ to translate it to a Rocq proof.
 Lemma every_day_has_prev : forall d, exists d', next_day d' = d.
 Proof.
   (* Goal is a forall, so introduce it. *)
-  intros d.
-Abort.
+  intros d. destruct d.
+  -exists sunday. simpl. reflexivity. 
+  -exists monday. simpl. reflexivity. 
+  -exists tuesday. simpl. reflexivity. 
+  -exists wednesday. simpl. reflexivity. 
+  -exists thursday. simpl. reflexivity. 
+  -exists friday. simpl. reflexivity. 
+  -exists saturday. simpl. reflexivity. 
+Qed.
 
 (*| ## Option monad
 

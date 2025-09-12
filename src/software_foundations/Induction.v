@@ -597,13 +597,8 @@ Qed.
 
 Theorem mul_comm : forall m n : nat,
   m * n = n * m.
-Proof.
-  induction n. 
-  - rewrite mul_0_r. trivial. 
-  - simpl.
-  assert (P: m * S n = m + m * n).
-Admitted.
-  (*{simpl. Admitted.}*)
+  Proof.
+  Admitted.
   
 (** [] *)
 
@@ -620,26 +615,43 @@ Admitted.
 Theorem leb_refl : forall n:nat,
   (n <=? n) = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  induction n.
+  - trivial. 
+  - simpl. rewrite IHn. reflexivity. 
+Qed. 
 
 Theorem zero_neqb_S : forall n:nat,
   0 =? (S n) = false.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intro n. 
+  simpl. reflexivity.
+Qed. 
+
 
 Theorem andb_false_r : forall b : bool,
   andb b false = false.
-Proof.
-  (* FILL IN HERE *) Admitted.
+Proof. (*By cases*)
+  intro b. 
+  destruct b. 
+  - trivial.
+  - trivial.
+Qed. 
 
 Theorem S_neqb_0 : forall n:nat,
   (S n) =? 0 = false.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  induction n.
+  - simpl. reflexivity. 
+  - simpl. reflexivity.  
+Qed.
 
 Theorem mult_1_l : forall n:nat, 1 * n = n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  intros n.
+  simpl.
+  rewrite plus_n_O. 
+  reflexivity.
+Qed. 
 
 Theorem all3_spec : forall b c : bool,
   orb
@@ -648,11 +660,17 @@ Theorem all3_spec : forall b c : bool,
          (negb c))
   = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  destruct b. destruct c.
+  - trivial.
+  - trivial.
+  - trivial.
+Qed.
 
 Theorem mult_plus_distr_r : forall n m p : nat,
   (n + m) * p = (n * p) + (m * p).
 Proof.
+  intros n m p.
+
   (* FILL IN HERE *) Admitted.
 
 Theorem mult_assoc : forall n m p : nat,
@@ -675,6 +693,12 @@ Proof.
 Theorem add_shuffle3' : forall n m p : nat,
   n + (m + p) = m + (n + p).
 Proof.
+  intros n m p.
+  replace m with n.
+  -
+  assert (H: n + (m + p) = n + m + p).
+  {  rewrite add_assoc. reflexivity. }
+
   (* FILL IN HERE *) Admitted.
 (** [] *)
 
